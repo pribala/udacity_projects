@@ -19,11 +19,11 @@ The following quick start options are available:
 Within the repo you'll find the following directories and files:
 
 udacity_projects 
-    - Movie_Website_Project
-        - entertainment_center.py
-        - media.py
-        - fresh_tomatoes.py
-        - readme.md
+    -Movie_Website_Project
+        -entertainment_center.py
+        -media.py
+        -fresh_tomatoes.py
+        -readme.md
 
 ###Requirements
 
