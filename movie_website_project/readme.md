@@ -50,4 +50,7 @@ The file fresh_tomatoes.py should be under the same folder as the entertainment_
 
 The fresh_tomatoes.py file takes a list of movies as argument and generates an html for viewing the movie details.
 
- 
+###Reference:
+  * http://www.w3schools.com/bootstrap/bootstrap_popover.asp for adding the popover plugin to display movie synopsis 
+  * The Programming Foundations with Python Udacity course for help with Python classes and fresh_tomatoes.py code to generate html 
+  * http://www.tutorialspoint.com/python/ for working with datetime variables 
