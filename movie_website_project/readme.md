@@ -12,7 +12,7 @@ the movie by clicking on the movie poster. The user can read the story synopsis 
 The following quick start options are available:
 
 - Download the lastest release.
-- Clone the repo: : git clone https://github.com/pribala/udacity_projects.git.
+- Clone the repo: git clone https://github.com/pribala/udacity_projects.git.
 
 ###What's Included
 
