@@ -8,7 +8,7 @@
 }
 
 body {
-	font-family: 'Roboto', sans-serif;
+	font-family: "Roboto", sans-serif;
 	color: #2d3c49;
 	font-weight: 400;
 }
@@ -63,4 +63,17 @@ body {
 
 .ocean-view {
 	margin: 0 auto;
+}
+
+/* Footer Section */
+
+.footer-text {
+	font-family: "Roboto", sans-serif;
+	font-size: 15px;
+}
+
+.footer-logo {
+	width: 30px;
+	height: 30px;
+	margin-right: 10px;
 }

@@ -16,22 +16,22 @@
 		<!-- Creating a framework using bootstrap grid system -->
 		<div class="container-fluid">
 			<!-- Creating header with logo and developer information -->
-			<div class="row">
+			<header class="row">
 				<div class="col-md-6 title-logo">
-					<img src="images/logo.png" alt="Udacity Logo">
+					<img class="img-responsive" src="images/logo.png" alt="Udacity Logo">
 				</div>
-				<div class="col-md-6 text-right text-uppercase">
+				<section class="col-md-6 text-right text-uppercase">
 					<h1 class="super-title text-thin">Priya Bala</h1>
 					<h4 class="title-sub-text">Front-End Developer</h4>
-				</div>
-			</div>
-			<div class="row">
+				</section>
+			</header>
+			<header class="row">
 				<div class="col-md-12">
 					<hr class="title-hr">
 				</div>
-			</div>
+			</header>
 			<!-- Adding portfolio image -->
-			<div class="row">
+			<main class="row">
 				<div class="col-md-12">
 					<figure>
 						<picture>
@@ -43,40 +43,45 @@
 						<figcaption>Source: Priya Bala </figcaption>
 					</figure>
 				</div>
-			</div>
+			</main>
 			<!-- Creating list of projects -->
-			<div class="row">
-				<div class="col-md-12">
+			<header class="row">
+				<section class="col-md-12">
 					<h2 class="text-muted">Featured Work</h2>
-				</div>
-			</div>
+				</section>
+			</header>
 			<div class="row text-center">
 			<!-- TODO : change link's src to point to valid project urls -->
-			    <div class="col-md-4">
+			    <section class="col-md-4">
 					<picture>
 						<source media="(min-width:500px)" srcset="images/babyseal-medium.JPG">
 						<img class="img-responsive image-margin" src="images/babyseal-small.JPG" alt="Baby seals sunning themselves on the rocks" data-toggle="modal" data-target="#project1-desc">
 					</picture>
 					<h3 class="proj-heading text-uppercase">Fresh Tomatoes</h3>
 					<p><a class="proj-links" href="https://pribala.github.io/fresh-tomatoes/">https://pribala.github.io/fresh-tomatoes/</a></p>
-				</div>
-				<div class="col-md-4">
+				</section>
+				<section class="col-md-4">
 					<picture>
 						<source media="(min-width:500px)" srcset="images/cormorant-medium.JPG">
 						<img class="img-responsive image-margin" src="images/cormorant-small.JPG" alt="A lone cormorant" data-toggle="modal" data-target="#project2-desc">
 					</picture>
 					<h3 class="proj-heading text-uppercase">Ipsum</h3>
 					<p><a class="proj-links" href="https://pribala.github.io/ipsum/">https://pribala.github.io/ipsum/</a></p>
-				</div>
-				<div class="col-md-4">
+				</section>
+				<section class="col-md-4">
 					<picture>
 						<source media="(min-width:500px)" srcset="images/birds-medium.JPG">
 						<img class="img-responsive image-margin" src="images/birds-small.JPG" alt="Flock of cormorants roosting on rocks" data-toggle="modal" data-target="#project3-desc">
 					</picture>
 					<h3 class="proj-heading text-uppercase">Front End Ninja</h3>
 					<p><a class="proj-links" href="https://pribala.github.io/front-end-ninja/">https://pribala.github.io/front-end-ninja/</a></p>
-				</div>
+				</section>
     		</div>
+			<footer class="row">
+				<div class="col-md-12">
+					<p class="footer-text"><img class="footer-logo" src="images/my-logo.png" alt="Hot air balloon,personal logo">Source for all pictures on this website: Priya Bala</p>
+				</div>
+			</footer>
 		</div>
 		<!-- Modal 1 -->
 		<div class="modal fade" id="project1-desc" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
