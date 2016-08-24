@@ -1,0 +1,17 @@
+/* Reducing font sizes for smaller screen sizes */
+
+.title-sub-text {
+	font-size: 18px;
+}
+
+.super-title {
+	font-size: 55px;
+}
+
+.text-muted {
+	font-size: 33px;
+}
+
+.proj-heading {
+	font-size: 25px;
+}

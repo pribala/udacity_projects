@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400" rel="stylesheet">
+		<link rel="stylesheet" href="css/bootstrap.min.css">
+		<link rel="stylesheet" href="css/styles.css">
+		<link rel="stylesheet" media="screen and (max-width: 350px)" href="css/under350.css">
+		<script src="js/jquery-2.2.4.min.js"></script>
+		<script src="js/bootstrap.min.js"></script>
+		<title>Web design Portforlio</title>
+	</head>
+	<body>
+		<!-- Creating a framework using bootstrap grid system -->
+		<div class="container-fluid">
+			<!-- Creating header with logo and developer information -->
+			<div class="row">
+				<div class="col-md-6 title-logo">
+					<img src="images/logo.png" alt="Udacity Logo">
+				</div>
+				<div class="col-md-6 text-right text-uppercase">
+					<h1 class="super-title text-thin">Priya Bala</h1>
+					<h4 class="title-sub-text">Front-End Developer</h4>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-12">
+					<hr class="title-hr">
+				</div>
+			</div>
+			<!-- Adding portfolio image -->
+			<div class="row">
+				<div class="col-md-12">
+					<figure>
+						<picture>
+							<source class="img-responsive" media="(max-width:410px)" srcset="images/oceanview-small.JPG">
+							<source media="(max-width:750px)" srcset="images/oceanview-medium.JPG">
+							<source media="(max-width:1550px)" srcset="images/oceanview-large_2x.JPG">
+							<img class="img-responsive ocean-view" src="images/oceanview-large_2x.JPG" alt="View of the Pacific Ocean from PCH">
+						</picture>
+						<figcaption>Source: Priya Bala </figcaption>
+					</figure>
+				</div>
+			</div>
+			<!-- Creating list of projects -->
+			<div class="row">
+				<div class="col-md-12">
+					<h2 class="text-muted">Featured Work</h2>
+				</div>
+			</div>
+			<div class="row text-center">
+			<!-- TODO : change link's src to point to valid project urls -->
+			    <div class="col-md-4">
+					<picture>
+						<source media="(min-width:500px)" srcset="images/babyseal-medium.JPG">
+						<img class="img-responsive image-margin" src="images/babyseal-small.JPG" alt="Baby seals sunning themselves on the rocks" data-toggle="modal" data-target="#project1-desc">
+					</picture>
+					<h3 class="proj-heading text-uppercase">Fresh Tomatoes</h3>
+					<p><a class="proj-links" href="https://pribala.github.io/fresh-tomatoes/">https://pribala.github.io/fresh-tomatoes/</a></p>
+				</div>
+				<div class="col-md-4">
+					<picture>
+						<source media="(min-width:500px)" srcset="images/cormorant-medium.JPG">
+						<img class="img-responsive image-margin" src="images/cormorant-small.JPG" alt="A lone cormorant" data-toggle="modal" data-target="#project2-desc">
+					</picture>
+					<h3 class="proj-heading text-uppercase">Ipsum</h3>
+					<p><a class="proj-links" href="https://pribala.github.io/ipsum/">https://pribala.github.io/ipsum/</a></p>
+				</div>
+				<div class="col-md-4">
+					<picture>
+						<source media="(min-width:500px)" srcset="images/birds-medium.JPG">
+						<img class="img-responsive image-margin" src="images/birds-small.JPG" alt="Flock of cormorants roosting on rocks" data-toggle="modal" data-target="#project3-desc">
+					</picture>
+					<h3 class="proj-heading text-uppercase">Front End Ninja</h3>
+					<p><a class="proj-links" href="https://pribala.github.io/front-end-ninja/">https://pribala.github.io/front-end-ninja/</a></p>
+				</div>
+    		</div>
+		</div>
+		<!-- Modal 1 -->
+		<div class="modal fade" id="project1-desc" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h4 class="modal-title" id="myModalLabel">Fresh Tomatoes</h4>
+					</div>
+					<div class="modal-body text-justify">
+						<img class="img-responsive" src="images/babyseal-medium.JPG" alt="Baby seals sunning themselves on the rocks">
+						This was my first project in the Nanodegree program. In this project I learnt how to write an application
+						using object-oriented Python and make this application serve HTML via a web server.I wrote server-side 
+						code to store a list of my favorite movies, including box art imagery and a movie trailer URL. Then wrote 
+						code to generate a static web page allowing visitors to browse their movies and watch the trailers.
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- Modal 2 -->
+		<div class="modal fade" id="project2-desc" tabindex="-1" role="dialog" aria-labelledby="myModalLabel1" aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h4 class="modal-title" id="myModalLabel1">Ipsum</h4>
+					</div>
+					<div class="modal-body text-justify">
+						<img class="img-responsive" src="images/cormorant-medium.JPG" alt="A lone cormorant">
+						In this project I created a page based on the mockup provided while working extensively with HTML,CSS,
+						the box model, positioning, semantic tags and images while understanding the concept of code, test
+						and refine.
+
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- Modal 3 -->
+		<div class="modal fade" id="project3-desc" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h4 class="modal-title" id="myModalLabel2">Front End Ninja</h4>
+					</div>
+					<div class="modal-body text-justify">
+						<img class="img-responsive" src="images/birds-medium.JPG" alt="Flock of cormorants roosting on rocks">
+						In this project I was provided with a design mockup as a PDF-file which I
+						replicated in HTML and CSS.I developed a responsive website that displays
+						images, descriptions and links to each of the portfolio projects completed
+						throughout the course of the Front-End Web Developer Nanodegree.
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

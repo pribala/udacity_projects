@@ -1,0 +1,66 @@
+/* General */
+
+* {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+body {
+	font-family: 'Roboto', sans-serif;
+	color: #2d3c49;
+	font-weight: 400;
+}
+
+/* Header */
+
+.text-thin {
+	font-weight: 100;
+}
+
+.title-sub-text {
+	font-size: 20px;
+}
+
+.super-title {
+	font-size: 60px;
+}
+
+.title-logo {
+	margin-top: 20px;
+}
+
+.title-hr {
+   border: 2px solid #7d97ad;
+}
+
+/* Featured Work Section */
+
+.text-muted {
+	color: #7d97ad;
+	font-weight: 300;
+	font-size: 35px;
+}
+
+/* Project Description Section */
+
+.proj-heading {
+	font-size: 30px;
+}
+
+.proj-links, 
+.proj-links:hover {
+	color: #2d3c49;
+	font-size: 16px;
+	text-decoration: none;
+}
+
+.image-margin {
+	display: block;
+	margin: auto;
+}
+
+.ocean-view {
+	margin: 0 auto;
+}
