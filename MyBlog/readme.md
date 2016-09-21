@@ -51,7 +51,11 @@ udacity_projects
 		* comment.html
 		* edit-comment.html
 		* delete-comment.html
-	  * main.py 
+	  * main.py
+      * models
+        * user.py
+        * post.py
+        * comment.py		
       * readme.md 
       * app.yaml
 	  
