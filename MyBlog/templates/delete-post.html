@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block content %}
+	<div class="sub-heading">
+		<h2>Delete Posts</h2>
+		<span class="post-link">
+			<i class="icon-list-alt"></i><a class="new-post-link" href="/welcome" title="Go back to post main-page">Posts</a>
+			<i class="icon-signout"></i><a class="new-post-link" href="/logout">Signout</a>
+		</span>
+	</div>	
+	<!-- Creating a form for deleting the selected posts from the blog -->	
+	<form method="post">
+		{% for blog in blogs %}
+			<div class="post-title">
+				{{ blog.subject}}
+				<span class="post-date">
+					{{blog.created.strftime("%b %d, %Y")}}
+				</span>
+			</div>
+			<div class="post-frame">
+				<div class="post-content">
+					{{ blog.content}}
+				</div>
+				<div class="post-edit">
+					<input type="checkbox" name="delete-post" value="{{blog.key().id()}}">
+				</div>
+			</div>
+		{% endfor %}
+		<input type="submit">
+	</form>	
+{% endblock %}
+

@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block content %}
+<!-- Login form -->
+<form method="post">
+	<div class="grid">
+		<div class="row">
+			<div class="col-9">
+				<h1>Login</h1>
+			</div>
+			<div class="col-3 link-align">
+				<a href="/signup" class="top-link"><h1>Signup</h1></a>
+			</div>
+		</div>	
+		<div class="row">
+			<div class="col-2">
+				<label>Username:</label>
+			</div>
+			<div class="col-10">
+				<input type="text" name="username" value={{username}}>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-2">
+				<label>Password:</label>
+			</div>
+			<div class="col-10">
+				<input type="password" name="password" class="user-password" placeholder="Password">
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-12 error">
+				{{error}}
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-12">
+				<input type="submit" value="Login">
+			</div>
+		</div>
+	</div>
+</form>
+{% endblock %}	

@@ -1,0 +1,36 @@
+<!-- Extending from base.html to ensure all the html files have uniform look and feel -->
+
+{% extends "base.html" %}
+{% block content %}
+	<div class="sub-heading">
+		<h2>Delete Comment</h2>
+		<span class="post-link">
+			<i class="icon-list-alt"></i><a class="new-post-link" href="/comment" title="Go back to comment main-page">Comments</a>
+			<i class="icon-signout"></i><a class="new-post-link" href="/logout">Signout</a>
+		</span>
+	</div>	
+
+<!-- Displaying the comment selected by the user for deletion -->
+	<form method = "post">
+		<div class="blog">
+			<div class="post-title">{{ comment.title}}
+				<span class="post-date">
+					{{comment.date_created.strftime("%b %d, %Y")}}
+				</span>
+			</div>
+			<div class="post-content">
+				{{ comment.content}}
+			</div>
+		</div>
+		<div class = "post-button-frame">
+			<input class = "post-button" type = "submit" value = "Delete"> 
+		</div>
+	</form>	
+	{% if error != "" %}
+		<div class="alert">
+			<span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span> 
+			{{error}}
+		</div>
+	{% endif %}
+
+{% endblock %}	

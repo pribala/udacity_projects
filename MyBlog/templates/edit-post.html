@@ -1,0 +1,25 @@
+<!-- Extending from base.html to ensure all the html files have uniform look and feel -->
+{% extends "base.html" %}
+{% block content %}
+		<div class="sub-heading">
+			<h2>Edit Post</h2>
+			<span class="post-link">
+				<i class="icon-list-alt"></i><a class="new-post-link" href="/welcome" title="Go back to post main-page">Posts</a>
+				<i class="icon-signout"></i><a class="new-post-link" href="/logout">Signout</a>
+			</span>
+		</div>	
+		<!-- Creating the form for editing a post-->
+		<form method="post">
+			<label>
+				<div>Subject</div>
+				<input type="text" name="subject" value={{subject}}>
+			</label>
+			<label>
+				<div>Content</div>
+				<textarea name="content">{{content}}</textarea>
+			</label>
+			<div class="error">{{error}}</div>	
+			<input type="submit">
+		</form>
+{% endblock %}		
+			

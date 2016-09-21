@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block content %}
+	<div class="sub-heading">
+		<h1>Adventures in Blogging: Comments</h1>
+		<span class="post-link">
+			<i class="icon-list-alt"></i><a class="new-post-link" href="/welcome" title="Go back to post main-page">Posts</a>
+			<i class="icon-signout"></i><a class="new-post-link" href="/logout">Signout</a>
+		</span>
+	</div>	
+	
+<!-- Comment dashboard -->
+{% for comment in comments %}
+	<div class="blog">
+		<div class="post-title">
+			{{ comment.title}}
+			<span class="post-date">
+				{{comment.date_created.strftime("%b %d, %Y")}}
+			</span>
+		</div>
+		<div class="post-frame">
+			<div class="post-content">
+				{{ comment.content}}
+			</div>
+			<!-- Display the edit and delete options only if the current user is the author of the comment -->
+			{% if comment.created_by == username %}
+				<div class="post-edit">
+					<a class="new-post-link" href="/editcomment/{{comment.key().id()}}"><i class="icon-edit"></i></a>
+					<a class="new-post-link" href="/deletecomment/{{comment.key().id()}}"><i class="icon-remove"></i></a>
+					<a class="new-post-link" href="/newcomment/{{comment.post_id}}"><i class="icon-comments"></i></a>
+				</div>
+			{% else %}
+				<div class="post-edit">
+					<a class="new-post-link" href="/newcomment/{{comment.post_id}}"><i class="icon-comments"></i></a>
+				</div>
+		    {% endif %}				
+		</div>
+	</div>	
+{% endfor %}
+{% endblock %}

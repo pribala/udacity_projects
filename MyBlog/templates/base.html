@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<!-- Creating the general framework for all the template files in the project -->
+<html>
+	<head>
+		<link type="text/css" rel="stylesheet" href="/static/main.css"/>
+		<link type="text/css" rel="stylesheet" href="/static/framework.css"/>
+		<link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+		<title>Let's Blog</title>
+	</head>
+	<body>
+		<a href="/blog" class="main-title">FSND Blog</a>
+		<div id="content">
+			{% block content %}
+			{% endblock %}
+		</div>
+	</body>	
+</html>

@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block content %}
+	<div class="sub-heading">
+		<h2><i class="icon-user icon-margin"></i>
+			{{username}}
+		</h2>
+		<span class="post-link">
+			<i class="icon-plus"></i><a class="new-post-link" href="/blog/newpost" title="Add a new post">Post</a>
+			<i class="icon-signout"></i><a class="new-post-link" href="/logout">Signout</a>
+		</span>
+	</div>	
+<!-- List the 10 most recent blog entries -->
+	{% for blog in blogs %}
+		<div class="blog">
+			<div class="post-title">
+				{{ blog.subject}}
+				<span class="post-date">
+					{{blog.created.strftime("%b %d, %Y")}}
+				</span>
+			</div>
+			<div class="post-frame">
+				<div class="post-content">
+					{{ blog.content}}
+				</div>
+				<!-- Display the edit and delete options only if the current user is the author of the post -->
+				{% if blog.author == username %}
+					<div class="post-edit">
+						<a class="new-post-link" href="/edit/{{blog.key().id()}}"><i class="icon-edit"></i></a>
+						<a class="new-post-link" href="/delete"><i class="icon-remove"></i></a>
+						<a class="new-post-link" href="/newcomment/{{blog.key().id()}}"><i class="icon-comments"></i></a>
+					</div>
+				{% else %}
+					<div class="post-edit">
+						<a class="new-post-link" href="/newcomment/{{blog.key().id()}}"><i class="icon-comments"></i></a>
+						<a class="new-post-link" href="/likepost/{{blog.key().id()}}"><i class="icon-thumbs-up"></i></a>
+						<a class="new-post-link" href="/unlikepost/{{blog.key().id()}}"><i class="icon-thumbs-down"></i></a>
+					</div>
+				{% endif %}
+			</div>	
+		</div>
+	{% endfor %}
+{% endblock %}
+
+
