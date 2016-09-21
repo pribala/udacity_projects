@@ -25,6 +25,11 @@ import hashlib
 import hmac
 from google.appengine.ext import db
 import urlparse
+from models.user import User
+from models.post import Post
+from models.post import blog_key
+from models.comment import Comment
+
 
 # initializing the template library
 template_dir = os.path.join(os.path.dirname(__file__), 'templates')
@@ -48,28 +53,6 @@ def check_secure_val(secure_val):
     val = secure_val.split("|")[0]
     if secure_val == make_secure_val(val):
         return val
-
-# Password hashing functions
-
-
-def make_salt(length=5):
-    return ''.join(random.choice(string.letters) for x in xrange(length))
-
-
-def make_pw_hash(name, pw, salt=None):
-    if not salt:
-        salt = make_salt()
-    h = hashlib.sha256(name + pw + salt).hexdigest()
-    return '%s,%s' % (h, salt)
-
-# The function valid_pw() returns True if a user's password
-# matches its hash.
-
-
-def valid_pw(name, pw, h):
-    salt = h.split(',')[1]
-    n_h = make_pw_hash(name, pw, salt)
-    return n_h == h
 
 # User Input Authentication code
 
@@ -101,77 +84,6 @@ def valid_email(email):
 def valid_password(password):
     return password and PASS_RE.match(password)
 
-# defines a parent for the blog
-
-
-def blog_key(name='default'):
-    return db.Key.from_path('blogs', name)
-
-# Create the model for Post entity
-
-
-class Post(db.Model):
-    subject = db.StringProperty(required=True)
-    content = db.TextProperty(required=True)
-    created = db.DateTimeProperty(auto_now_add=True)
-    author = db.StringProperty()
-    date_modified = db.DateTimeProperty(auto_now=True)
-    likes_post = db.StringListProperty()
-    dislikes_post = db.StringListProperty()
-
-    @classmethod
-    def by_id(cls, pid):
-        return cls.get_by_id(pid, parent=blog_key())
-
-# Defines a parent for the User
-
-
-def users_key(group='default'):
-    return db.Key.from_path('users', group)
-
-# Create the model for User entity
-
-
-class User(db.Model):
-    name = db.StringProperty(required=True)
-    pw_hash = db.StringProperty(required=True)
-    email = db.StringProperty()
-
-    @classmethod
-    def by_id(cls, uid):
-        return cls.get_by_id(uid, parent=users_key())
-
-    @classmethod
-    def by_name(cls, name):
-        u = cls.all().filter('name =', name).get()
-        return u
-
-    @classmethod
-    def register(cls, name, pw, email=None):
-        pw_hash = make_pw_hash(name, pw)
-        return User(parent=users_key(), name=name, pw_hash=pw_hash,
-                    email=email)
-
-    @classmethod
-    def login(cls, name, pw):
-        u = cls.by_name(name)
-        if u and valid_pw(name, pw, u.pw_hash):
-            return u
-
-# Create the model for Comment entity
-
-
-class Comment(db.Model):
-    title = db.StringProperty(required=True)
-    content = db.TextProperty(required=True)
-    date_created = db.DateTimeProperty(auto_now_add=True)
-    date_modified = db.DateTimeProperty(auto_now=True)
-    created_by = db.StringProperty(required=True)
-    post_id = db.IntegerProperty(required=True)
-
-    @classmethod
-    def by_id(cls, cid):
-        return cls.get_by_id(cid)
 
 # Handler functions for rendering, initializing, login, logout
 
@@ -342,14 +254,19 @@ class DeletePost(Handler):
         if self.user:
             username = self.user.name
             blogs = db.GqlQuery("SELECT * FROM Post WHERE author ='" + username + "'")  # noqa
-            self.render("delete-post.html", blogs=blogs)
+            error = ""
+            self.render("delete-post.html", blogs=blogs, error=error)
 
     def post(self):
         blogid = self.request.get_all('delete-post')
         for bid in blogid:
             postid = int(bid)
             b = Post.by_id(postid)
-            b.delete()
+            if b.author == self.user.name:
+                b.delete()
+            else:
+                error = "You can only delete blogs you created!"
+                self.render("delete-post.html", error=error)
         self.redirect('/welcome')
 
 # Allows logged in user to edit their posts
@@ -367,7 +284,12 @@ class EditPost(Handler):
             if not blog:
                 self.error(404)
                 return
-            self.render_front(blog.subject, blog.content)
+            username = self.user.name
+            if blog.author == username:
+                self.render_front(blog.subject, blog.content)
+            else:
+                error = "You can only blogs created by you!"
+                self.render_front(error=error)
         else:
             self.redirect('/login')
 
@@ -377,11 +299,15 @@ class EditPost(Handler):
         if subject and content:
             postid = int(post_id)
             b = Post.by_id(postid)
-            b.subject = subject
-            b.content = content
-            b.author = self.user.name
-            b.put()
-            self.redirect('/blog/%s' % str(b.key().id()))
+            if b.author == self.user.name:
+                b.subject = subject
+                b.content = content
+                b.author = self.user.name
+                b.put()
+                self.redirect('/blog/%s' % str(b.key().id()))
+            else:
+                error = "You can only edit blogs created by you"
+                self.render_front(error=error)
         else:
             error = "We need both a subject and some content"
             self.render_front(subject, content, error)
@@ -394,8 +320,12 @@ class UnlikePost(Handler):
         if self.user:
             postid = int(post_id)
             blog = Post.by_id(postid)
-            error = ""
-            self.render("unlike-post.html", blog=blog, error=error)
+            if blog.author != self.user.name:
+                error = ""
+                self.render("unlike-post.html", blog=blog, error=error)
+            else:
+                error = "You cannot Like/Unlike your own posts!"
+                self.render("unlike-post.html", blog=blog, error=error)
         else:
             self.redirect('/login')
 
@@ -423,8 +353,12 @@ class LikePostHandler(Handler):
         if self.user:
             postid = int(post_id)
             blog = Post.by_id(postid)
-            error = ""
-            self.render("like-post.html", blog=blog, error=error)
+            if blog.author != self.user.name:
+                error = ""
+                self.render("like-post.html", blog=blog, error=error)
+            else:
+                error = "You cannot Like/Unlike your own posts!"
+                self.render("like-post.html", blog=blog, error=error)
         else:
             self.redirect('/login')
 
@@ -464,18 +398,21 @@ class NewCommentHandler(Handler):
             self.redirect('/login')
 
     def post(self, post_id):
-        content = self.request.get('content')
-        postid = int(post_id)
-        blog = Post.by_id(postid)
-        title = blog.subject
-        if content:
-            comment = Comment(title=title, content=content,
-                              created_by=self.user.name, post_id=postid)
-            comment.put()
-            self.redirect('/comment')
+        if self.user:
+            content = self.request.get('content')
+            postid = int(post_id)
+            blog = Post.by_id(postid)
+            title = blog.subject
+            if content:
+                comment = Comment(title=title, content=content,
+                                  created_by=self.user.name, post_id=postid)
+                comment.put()
+                self.redirect('/comment')
+            else:
+                error = "We need some content for the comment"
+                self.render_front(title, content, error)
         else:
-            error = "We need some content for the comment"
-            self.render_front(title, content, error)
+            self.redirect('/login')
 
 # Function renders the comments from the datastore
 # Only logged in users can see the comments
@@ -544,8 +481,14 @@ class DeleteComment(Handler):
         if self.user:
             commentid = int(comment_id)
             comment = Comment.by_id(commentid)
-            error = ""
-            self.render("delete-comment.html", comment=comment, error=error)
+            if comment.created_by == self.user.name:
+                error = ""
+                self.render("delete-comment.html", comment=comment,
+                            error=error)
+            else:
+                error = "You can only delete comments created by you!"
+                self.render("delete-comment.html", comment=comment,
+                            error=error)
         else:
             self.redirect('/login')
 
@@ -575,13 +518,19 @@ class MainHandler(Handler):
         self.render("front.html", blogs=blogs)
 
 app = webapp2.WSGIApplication([
-    ('/blog', MainHandler), ('/blog/newpost', NewPostHandler),
-    ('/blog/([0-9]+)', LinkHandler), ('/signup', Register),
-    ('/welcome', WelcomeHandler), ('/login', LoginHandler),
-    ('/logout', Logout), ('/delete', DeletePost), ('/edit/([0-9]+)', EditPost),
+    ('/blog', MainHandler),
+    ('/blog/newpost', NewPostHandler),
+    ('/blog/([0-9]+)', LinkHandler),
+    ('/signup', Register),
+    ('/welcome', WelcomeHandler),
+    ('/login', LoginHandler),
+    ('/logout', Logout),
+    ('/delete', DeletePost),
+    ('/edit/([0-9]+)', EditPost),
     ('/likepost/([0-9]+)', LikePostHandler),
     ('/unlikepost/([0-9]+)', UnlikePost),
-    ('/newcomment/([0-9]+)', NewCommentHandler), ('/comment', CommentHandler),
+    ('/newcomment/([0-9]+)', NewCommentHandler),
+    ('/comment', CommentHandler),
     ('/editcomment/([0-9]+)', EditCommentHandler),
     ('/deletecomment/([0-9]+)', DeleteComment),
     ], debug=True)
