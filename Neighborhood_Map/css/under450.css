@@ -1,0 +1,19 @@
+/* Reducing font sizes for screen sizes smaller than 450px */
+
+#optionBox {
+	font-size: 10px;
+}
+
+h1 {
+	font-size: 12px;
+	margin: 0 0 5px 0;
+}
+
+select {
+	font-size: 10px;
+}
+
+#location-list {
+	display: flex;
+	justify-content: center;
+}

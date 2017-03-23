@@ -1,0 +1,58 @@
+/* Style definition for the application */
+html,
+body {
+		font-family: Arial, sans-serif;
+		height: 100%;
+		padding: 0px;
+		margin: 0px;
+	}
+
+.container {
+		width: 100%;
+	}
+
+#optionBox {
+	z-index: 1;
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	background: #CBE6A3;
+	border: 1px solid #999;
+	border-radius: 3px;
+	line-height: 35px;
+	padding: 20px 10px 20px 20px;
+	text-align: left;
+	width: 20%;
+}
+
+#map {
+		height: 100%;
+		width: 100%;
+	}
+
+.text {
+	font-size: 12px;
+}
+
+h1 {
+	color: #525454;
+	font-size: 22px;
+	margin: 0 0 10px 0;
+	padding: 0px;
+	text-align: center;
+}
+
+#filter-container {
+	display: flex;
+	justify-content: center;
+}
+
+#pano {
+	width: 200px;
+	height: 200px;
+}
+
+select {
+	background-color: #EEBD7A;
+	border:  1px solid black;
+}

@@ -1,0 +1,43 @@
+<!-- Define the html template for the map application and,
+ include the relevant script and css files. Map data requests
+ are retrieved in an asynchronous manner -->
+<! DOCTYPE html>
+<html>
+	<head lang="en">
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="css/main.css">
+		<link rel="stylesheet" media="screen and (max-width: 650px)" href="css/under650.css">
+		<link rel="stylesheet" media="screen and (max-width: 450px)" href="css/under450.css">
+		<link rel="stylesheet" media="screen and (max-width: 365px)" href="css/under365.css">
+		<title>Neighborhood Map</title>
+	</head>
+	<body>
+		<div class="container">
+			<div id="optionBox">
+				<h1>New York Landmarks</h1>
+				<div id="location-list">
+					<ul data-bind="foreach: locationList">
+						<li data-bind="visible: showLocation, click: $parent.setSelectedLocation, event: {mouseout: $parent.changeMarker}, text: title"></li>
+					</ul>
+				</div>
+				<div id="filter-container">
+					<select data-bind="options: optionList, optionsCaption: 'Filter your search:', value: selectedOption">
+					</select>
+				</div>
+			</div>
+			<div  id="map">
+			</div>
+		</div>
+		<script src="js/model.js"></script>
+		<script src="js/locationInfo.js"></script>
+		<script src="js/map.js"></script>
+		<script src="js/lib/knockout-3.4.1.js"></script>
+		<script src="js/lib/jquery.min.js"></script>
+		<script src="js/wiki.js"></script>
+		<script async defer 
+		src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAvt-ZFcdqQltBEdpHGSHhpfUbI_Ju8Bh8&v=3&callback=initMap" onerror="errorHandling()">
+		</script>
+	</body>
+</html>
