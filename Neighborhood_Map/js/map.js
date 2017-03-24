@@ -3,6 +3,7 @@
 var markers = [];
 var map;
 var marker;
+var toggleInfoWindow = false;
 
 function initMap() {
 	map = new google.maps.Map(document.getElementById('map'), {
@@ -20,7 +21,6 @@ function initMap() {
 			strokeWeight: 2,
 		};
 
-	var largeInfowindow = new google.maps.InfoWindow();
 	var placeList = initialLocations;
 
 	// The following group uses the location array to create an array of markers on initialize.
@@ -39,19 +39,22 @@ function initMap() {
 		});
 
 		// Create an onclick event to open an infowindow at each marker.
+		// Set the toggleInfoWindow variable to true to indicate the marker has been clicked.
 		marker.addListener('click', function() {
-			populateInfoWindow(this, largeInfowindow);
+			toggleBounce(this);
+			toggleInfoWindow = true;
+			loadData(this);
 		});
 
 		// Two event listeners - one for mouseover, one for mouseout,
 		// to toggle the bounce back and forth.
-		marker.addListener('mouseover', function() {
+		/*marker.addListener('mouseover', function() {
 			this.setAnimation(google.maps.Animation.BOUNCE);
 		});
 
 		marker.addListener('mouseout', function() {
 			this.setAnimation(null);
-		});
+		});*/
 
 
 		// Push the marker to our array of markers.
@@ -62,10 +65,22 @@ function initMap() {
 	ko.applyBindings(new ViewModel());
 }
 
+// Clicking on the marker will toggle the animation between a BOUNCE
+// animation and no animation.
+function toggleBounce(marker) {
+  if (marker.getAnimation() !== null) {
+    marker.setAnimation(null);
+  } else {
+    marker.setAnimation(google.maps.Animation.BOUNCE);
+  }
+}
+
 // This function populates the infowindow when the marker is clicked. We'll only allow
 // one infowindow which will open at the marker that is clicked, and populate based
 // on that markers position.
-function populateInfoWindow(marker, infowindow) {
+// Clicking a marker populates the infowindow with streetview panorama and wiki data.
+function populateInfoWindow(marker, articleStr) {
+	var infowindow = new google.maps.InfoWindow();	
 	// Check to make sure the infowindow is not already opened on this marker.
 	if (infowindow.marker != marker) {
 		// Clear the infowindow content to give the streetview time to load.
@@ -85,7 +100,7 @@ function populateInfoWindow(marker, infowindow) {
 				var nearStreetViewLocation = data.location.latLng;
 				var heading = google.maps.geometry.spherical.computeHeading(
 					nearStreetViewLocation, marker.position);
-				infowindow.setContent('<div><strong>' + marker.title + '</strong></div><div id="pano"></div>');
+				infowindow.setContent('<div><strong>' + marker.title+'</strong>'+articleStr+'</div><div id="pano"></div>');
 				var panoramaOptions = {
 					position: nearStreetViewLocation,
 					pov: {
@@ -111,18 +126,24 @@ function populateInfoWindow(marker, infowindow) {
 };
 
 function displayWikiWindow(marker, articleStr) {
-	var wikiInfoWindow = new google.maps.InfoWindow();
-	if (wikiInfoWindow.marker != marker) {
-		// Clear the infowindow content to give the streetview time to load.
-		wikiInfoWindow.setContent('');
-		wikiInfoWindow.marker = marker;
-		// Make sure the marker property is cleared if the infowindow is closed.
-		wikiInfoWindow.addListener('closeclick',function(){
-			wikiInfoWindow.setMarker = null;
-		});
-		wikiInfoWindow.setContent('<div><strong>' + marker.title + '</strong>'+articleStr+'</div>');
-		wikiInfoWindow.open(map, marker);
-	}
+	// Populate the infowindow with Wiki data if a list item is seleceted.
+	// Else, if marker is clicked populate the infowindow with street view panorama and Wiki data.
+	if(toggleInfoWindow === false) {
+		var wikiInfoWindow = new google.maps.InfoWindow();
+			if (wikiInfoWindow.marker != marker) {
+			// Clear the infowindow content to give the wiki data time to load.
+			wikiInfoWindow.setContent('');
+			wikiInfoWindow.marker = marker;
+			// Make sure the marker property is cleared if the infowindow is closed.
+			wikiInfoWindow.addListener('closeclick',function(){
+				wikiInfoWindow.setMarker = null;
+			});
+			wikiInfoWindow.setContent('<div><strong>' + marker.title + '</strong>'+articleStr+'</div>');
+			wikiInfoWindow.open(map, marker);
+			} 
+	}else {
+		populateInfoWindow(marker, articleStr);
+	}		
 };
 
 // Display user friendly error message

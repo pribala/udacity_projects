@@ -20,11 +20,13 @@ var ViewModel = function(){
 	// Setting the current location to the selected list item.
 	// On click event uses the Wiki Api to display relevant articles
 	// for the selected location.
+	// Set the toggleInfoWindow variable to false to indicate a list item has been clicked not a marker.
 	this.currentLocation = ko.observable(this.locationList()[0]);
 	this.setSelectedLocation = function(currentlocation) {
 		self.currentLocation(currentlocation);
 		self.currentLocation().marker.setAnimation(google.maps.Animation.BOUNCE);
 		map.panTo(self.currentLocation().marker.position);
+		toggleInfoWindow = false;
 		loadData(self.currentLocation().marker);
 	};
 
