@@ -1,9 +1,10 @@
 // View Definition
 
+// Location constructor to create a location object for the list view as well as for markers
 var Location = function(data) {
-	this.title = ko.observable(data.title);
-	this.location = ko.observable(data.location);
-	this.address = ko.observable(data.address);
+	this.title = data.title;
+	this.location = data.location;
+	this.address = data.address;
 	this.showLocation = ko.observable(true);
 	this.marker = data.marker;
 }
@@ -48,7 +49,7 @@ var ViewModel = function(){
 			if (self.selectedOption() === 'None') {
 				placeList[i].showLocation(true);
 				placeList[i].marker.setVisible(true);
-			} else if(self.selectedOption() !== placeList[i].address()){
+			} else if(self.selectedOption() !== placeList[i].address){
 				placeList[i].showLocation(false);
 				placeList[i].marker.setVisible(false);
 			} else {
