@@ -11,7 +11,7 @@ body {
 		width: 100%;
 	}
 
-#optionBox {
+.optionBox {
 	z-index: 1;
 	position: absolute;
 	left: 0px;
@@ -25,7 +25,7 @@ body {
 	width: 20%;
 }
 
-#map {
+.map-container {
 		height: 100%;
 		width: 100%;
 	}
@@ -42,12 +42,12 @@ h1 {
 	text-align: center;
 }
 
-#filter-container {
+.filter-container {
 	display: flex;
 	justify-content: center;
 }
 
-#pano {
+.pan-window {
 	width: 200px;
 	height: 200px;
 }

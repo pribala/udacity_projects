@@ -1,6 +1,6 @@
 /* Reducing font sizes for screen sizes smaller than 450px */
 
-#optionBox {
+.optionBox {
 	font-size: 10px;
 }
 
@@ -13,7 +13,7 @@ select {
 	font-size: 10px;
 }
 
-#location-list {
+.location-list-container {
 	display: flex;
 	justify-content: center;
 }

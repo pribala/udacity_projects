@@ -93,6 +93,8 @@ function populateInfoWindow(marker, infowindow) {
 						pitch: 30
 					}
 				};
+				var panWindow = document.getElementById('pano');
+				panWindow.className = "pan-window";
 				var panorama = new google.maps.StreetViewPanorama(
 					document.getElementById('pano'), panoramaOptions);
 			} else {
