@@ -2,7 +2,7 @@
 
 var Location = function(data) {
 	this.title = ko.observable(data.title);
-	this.loation = ko.observable(data.location);
+	this.location = ko.observable(data.location);
 	this.address = ko.observable(data.address);
 	this.showLocation = ko.observable(true);
 	this.marker = data.marker;

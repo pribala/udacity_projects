@@ -1,10 +1,7 @@
-<!-- Define the html template for the map application and,
- include the relevant script and css files. Map data requests
- are retrieved in an asynchronous manner -->
-<! DOCTYPE html>
-<html>
-	<head lang="en">
-		<meta charset="utf-8">
+ <!DOCTYPE html>
+ <html lang="en">
+	<head>
+		<meta charset="UTF-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<link rel="stylesheet" href="css/main.css">
@@ -14,6 +11,9 @@
 		<title>Neighborhood Map</title>
 	</head>
 	<body>
+		<!-- Define the html template for the map application and,
+		include the relevant script and css files. Map data requests
+		are retrieved in an asynchronous manner -->
 		<div class="container">
 			<div class="optionBox">
 				<h1>New York Landmarks</h1>
@@ -23,8 +23,7 @@
 					</ul>
 				</div>
 				<div class="filter-container">
-					<select data-bind="options: optionList, optionsCaption: 'Filter your search:', value: selectedOption">
-					</select>
+					<select data-bind="options: optionList, optionsCaption: 'Filter your search:', value: selectedOption"></select>
 				</div>
 			</div>
 			<div  id="map" class="map-container">
