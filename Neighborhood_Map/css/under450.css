@@ -1,19 +1,44 @@
-/* Reducing font sizes for screen sizes smaller than 450px */
+/* Reducing font sizes for screen sizes smaller than 450px*/
 
 .optionBox {
-	font-size: 10px;
-}
-
-h1 {
-	font-size: 12px;
-	margin: 0 0 5px 0;
-}
-
-select {
-	font-size: 10px;
+	width:225px;
+	height:100%;
+	font-size: 16px;
+	position:absolute;
+	-webkit-transform:translate(-400px,0);
+	transform:translate(-400px,0);
+	transition:transform 0.3s ease;
 }
 
 .location-list-container {
 	display: flex;
-	justify-content: center;
+	justify-content: left;
+}
+
+a.menu svg {
+	width:25px;
+	fill:#000;
+}
+
+.menu {
+	display: block;
+	z-index: 1;
+	position: absolute;
+	left: 10px;
+	top: 15px;
+}
+
+.expand {
+	-webkit-transform: translate(0,0);
+	transform: translate(0,0);
+	z-index: 2;
+}
+
+h1 {
+	font-size: 18px;
+	margin: 0 0 5px 0;
+}
+
+select {
+	font-size: 16px;
 }

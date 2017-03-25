@@ -7,7 +7,6 @@
 		<link rel="stylesheet" href="css/main.css">
 		<link rel="stylesheet" media="screen and (max-width: 650px)" href="css/under650.css">
 		<link rel="stylesheet" media="screen and (max-width: 450px)" href="css/under450.css">
-		<link rel="stylesheet" media="screen and (max-width: 365px)" href="css/under365.css">
 		<title>Neighborhood Map</title>
 	</head>
 	<body>
@@ -26,15 +25,19 @@
 					<select data-bind="options: optionList, optionsCaption: 'Filter your search:', value: selectedOption"></select>
 				</div>
 			</div>
+			<a class="menu"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+			<path d="M2 6h20v3H2zm0 5h20v3H2zm0 5h20v3H2z"></path></svg>
+			</a>
 			<div  id="map" class="map-container">
 			</div>
 		</div>
+		<script src="js/wiki.js"></script>
 		<script src="js/model.js"></script>
 		<script src="js/locationInfo.js"></script>
 		<script src="js/map.js"></script>
 		<script src="js/lib/knockout-3.4.1.js"></script>
 		<script src="js/lib/jquery.min.js"></script>
-		<script src="js/wiki.js"></script>
+		<script src="js/menu.js"></script>
 		<script async defer 
 		src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAvt-ZFcdqQltBEdpHGSHhpfUbI_Ju8Bh8&v=3&callback=initMap" onerror="errorHandling()">
 		</script>
