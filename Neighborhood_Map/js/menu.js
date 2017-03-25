@@ -1,3 +1,5 @@
+// Function toggles the menu for smaller screens
+
 $('.menu').on('click', function(){
 	$('.optionBox').toggleClass('expand');
 });
