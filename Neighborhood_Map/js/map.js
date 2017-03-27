@@ -19,6 +19,8 @@ function initMap() {
 	// Path defines the shape of the symbol
 	var defaultIcon = {
 			path: google.maps.SymbolPath.BACKWARD_CLOSED_ARROW,
+			fillColor: 'red',
+			fillOpacity: 0.8,
 			scale: 6,
 			strokeColor: 'red',
 			strokeWeight: 2,
