@@ -1,7 +1,7 @@
 // Load  Map with 5 markers and infowindow when markers are clicked.
 
 var markers = [];
-var map;
+var map, infowindow;
 var marker;
 
 function initMap() {
@@ -23,7 +23,8 @@ function initMap() {
 			strokeColor: 'red',
 			strokeWeight: 2,
 		};
-
+	
+	infowindow = new google.maps.InfoWindow();
 	var placeList = initialLocations;
 	// The following group uses the location array to create an array of markers on initialize.
 	for (var i = 0; i < placeList.length; i++) {
@@ -128,7 +129,6 @@ function populateInfoWindow(marker, articleStr, infowindow) {
 // We'll only allow one infowindow which will open at the marker that is selected, and populate 
 // based on that markers position.
 function displayWikiWindow(marker, articleStr) {
-	var infowindow = new google.maps.InfoWindow();
 	if (infowindow.marker != marker) {
 		// Clear the infowindow content to give the wiki data time to load.
 		infowindow.setContent('');
