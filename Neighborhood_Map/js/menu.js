@@ -8,10 +8,7 @@ $('#location-list').on('click', function(){
 	$('.optionBox').toggleClass('expand');
 });
 
-/*$('.filter-container').on('click', function(){
-	setTimeout(toggleSize, 5000);
+$('.close-btn').on('click', function(){
+	$('.optionBox').toggleClass('expand');
 });
 
-function toggleSize() {
-	$('.optionBox').toggleClass('expand');
-};*/
