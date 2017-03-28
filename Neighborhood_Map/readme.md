@@ -1,4 +1,4 @@
-#Neighborhood Map Project
+# Neighborhood Map Project
 
 This project is a single page application featuring a map of New York City with seven of the prominent New York
 landmarks highlighted. The application utilizes the Google Maps API for displaying a fullscreen map and the 
@@ -37,7 +37,7 @@ Code is separated based upon Knockout Framework and follows an MVVM pattern and 
 jQuery or JS with the use of observables, observable arrays, computed observables.
 Knockout is used to implement dynamic UI update to create a rich and responsive display.
 
-###What's Included
+### What's Included
 
 Within the repo you'll find the following directories and files:
 
@@ -55,11 +55,11 @@ Within the repo you'll find the following directories and files:
       * under450.css - styles for smaller screen sizes.
 	  * under650.css - styles for smaller screen sizes.
 
-###Istructions to run the application:
+### Instructions to run the application:
 
 To start the application run the index.html from any browser.
 
-###Reference:
+### Reference:
   * Udacity's Intro to AJAX course
   * Udacity's JavaScript Design Patterns course
   * Udacity's Google Maps API course
