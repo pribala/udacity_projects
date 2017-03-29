@@ -1,20 +1,21 @@
-#Fresh Tomatoes Movie Trailers Website
+# Fresh Tomatoes Movie Trailers Website
 
-The Fresh Tomoatoes Movie Trailers Website provides an interface for the users to view movie details and watch the trailers.
+The Fresh Tomoatoes Movie Trailers Website provides an interface for the users to view movie details and 
+watch the trailers for the movies.
 
-###User Interface
+### User Interface
 
 The website displays a poster image for the list of movies along with the title and release date. The user can watch a trailer of
 the movie by clicking on the movie poster. The user can read the story synopsis by moving the pointer over the movie title.  
 
-###Quick Start
+### Quick Start
 
 The following quick start options are available:
 
 - Download the lastest release.
 - Clone the repo: git clone https://github.com/pribala/udacity_projects.git.
 
-###What's Included
+### What's Included
 
 Within the repo you'll find the following directories and files:
 
@@ -25,7 +26,7 @@ udacity_projects
       * fresh_tomatoes.py 
       * readme.md 
 
-###Requirements
+### Requirements
 
 Install Python if it is not already installed on the system.
 
@@ -50,7 +51,7 @@ The file fresh_tomatoes.py should be under the same folder as the entertainment_
 
 The fresh_tomatoes.py file takes a list of movies as argument and generates an html for viewing the movie details.
 
-###Reference:
+### Reference:
   * http://www.w3schools.com/bootstrap/bootstrap_popover.asp for adding the popover plugin to display movie synopsis 
   * The Programming Foundations with Python Udacity course for help with Python classes and fresh_tomatoes.py code to generate html 
   * http://www.tutorialspoint.com/python/ for working with datetime variables 
