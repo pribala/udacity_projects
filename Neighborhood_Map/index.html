@@ -23,7 +23,7 @@
 				<h1>New York Landmarks</h1>
 				<div id="location-list" class="location-list-container">
 					<ul data-bind="foreach: locationList">
-						<li data-bind="visible: showLocation, click: $parent.setSelectedLocation, event: {mouseout: $parent.changeMarker}, text: title"></li>
+						<li class="list-item" data-bind="visible: showLocation, click: $parent.setSelectedLocation, event: {mouseout: $parent.changeMarker}, text: title"></li>
 					</ul>
 				</div>
 				<div class="filter-container">

@@ -72,3 +72,11 @@ select {
 .close-btn {
 	display: none;
 }
+
+.list-item {
+	cursor: pointer;
+}
+
+.list-item:hover {
+	background: #00CB00;
+}
