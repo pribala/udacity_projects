@@ -1,6 +1,7 @@
 // Load  Map with 5 markers and infowindow when markers are clicked.
 
 var markers = [];
+// Declare a global infowindow, map.
 var map, infowindow;
 var marker;
 
@@ -25,7 +26,7 @@ function initMap() {
 			strokeColor: 'red',
 			strokeWeight: 2,
 		};
-	
+	// Initialize an infowindow
 	infowindow = new google.maps.InfoWindow();
 	var placeList = initialLocations;
 	// The following group uses the location array to create an array of markers on initialize.
