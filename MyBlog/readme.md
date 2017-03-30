@@ -1,10 +1,10 @@
-#Multi User Blog Website
+# Multi User Blog Website
 
 The Multi User Blog Website provides an interface for the users to view, create, edit, delete blog posts and also to like/ unlike 
 posts or comment on posts. The blog application is built using HTML, Python, Google App Engine and Jinja2 template library.
 You can access the blog using the url fsndblog.appspot.com/blog
 
-###User Interface
+### User Interface
 
 The Blog Website has a front page that lists blog posts. A user can create or modify posts only if they login.
 The front page has the option for a user to login or a new user to signup.
@@ -17,7 +17,7 @@ Like / Unlike posts only once but not their own.They receive an error message if
 Comment on posts.
 Edit / Delete comments. They can only edit/delete their own comments.
 
-###Quick Start
+### Quick Start
 
 The following quick start options are available:
 
@@ -26,7 +26,7 @@ The following quick start options are available:
 - To access the blog use the url fsndblog.appspot.com/blog. From there you can navigate to the login and signup page.
 - This page lists all the blogs created. To edit the blog posts you need to signup/ login.
 
-###What's Included
+### What's Included
 
 Within the repo you'll find the following directories and files:
 
@@ -59,13 +59,13 @@ udacity_projects
       * readme.md 
       * app.yaml
 	  
-###Requirements
+### Requirements
 
 Install Python if it is not already installed on the system.
 This site uses google app engine to serve the content of the site.
 
 
-###Reference:
+### Reference:
   * http://www.w3schools.com/ for adding the popover plugin to display movie synopsis 
   * The Google App Engine documentation https://cloud.google.com/appengine/docs/python/
   * Jinja2 template library documentation http://jinja.pocoo.org/docs/dev/  
