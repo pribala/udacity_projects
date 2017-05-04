@@ -17,25 +17,25 @@ Port: 2200
 ### Project Overview
 
 I configured and secured a new Ubuntu Linux server instance on Amazon Lightsail to host 
-a databse server, and a data driven web appllication. This was accomplished by installing 
-Apache2 server to serve Python Flask application that connects to a PostgresSQL database.
+a databse server, and a data driven web application. This was accomplished by installing 
+Apache2 server to serve Python Flask application that connects to a PostgreSQL database.
 
 ### Installed Packages
 
-Package Name				Description
-finger						Displays an easy to read information about a user
-apache2						HTTP Server
-libapache2-mod-wsgi			Hosts Python applications on Apache2 server
-ntp							Synchronizes time over a network
-postgresql					Postgresql Database server
-git							Version control system tools
-python-setuptools			An easy-install package to facilitate installing Python packages
-sqlalchemy					ORM and SQL tools for Python
-flask						Microframework for web applications
-python-psycopg2				PostgreSQL adapter for Python
-oauth2						Authorization framework for third-party login (Google and Facebook)
-google-api-python-client	Google API for OAuth login
-
+Package Name | Description
+------------ | -----------
+finger	| Displays an easy to read information about a user
+apache2	| HTTP Server
+libapache2-mod-wsgi | Hosts Python applications on Apache2 server
+ntp	| Synchronizes time over a network
+postgresql | Postgresql Database server
+git	| Version control system tools
+python-setuptools |	An easy-install package to facilitate installing Python packages
+sqlalchemy | ORM and SQL tools for Python
+flask |	Microframework for web applications
+python-psycopg2 | PostgreSQL adapter for Python
+oauth2 | Authorization framework for third-party login (Google and Facebook)
+google-api-python-client | Google API for OAuth login
 
 ### Configuration Summary
 
