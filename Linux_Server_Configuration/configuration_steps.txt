@@ -1,0 +1,564 @@
+Steps:
+Create an instance: 
+A Lightsail instance is a Linux server running on a virtual machine inside an Amazon datacenter.
+Public IP:107.23.141.18
+The DNS name of this instance is ec2-107-23-141-18.compute-1.amazonaws.com.
+
+Create a static IP and attach it to an instance in Amazon Lightsail
+
+Open up port 2200 on the Lightsail Networking page
+Add port 
+Application: Custom  Protocol: TCP Port Range: 2200
+
+Use the default key pair from Lightsail. 
+On your Account page, choose Download default private key and save the lightsailDefaultKey.pem key
+in c:/Users/priya/.ssh
+
+Allow owner the right to "read" and "write" the file:
+$ chmod 400 /c/Users/priya/.ssh/LightsailPrivateKey.pem
+
+ssh into the server
+ssh ubuntu@34.193.246.181 -p 22 -i /c/Users/priya/.ssh/LightsailPrivateKey.pem
+
+sudo nano /etc/ssh/sshd_config
+and in this file change port 22 to 2200 and then save the file 
+once u are done you can restart the ssh service!
+sudo service ssh restart
+Now you can log in using
+ssh ubuntu@34.193.246.181 -p 2200 -i /c/Users/priya/.ssh/LightsailPrivateKey.pem
+
+Create a new user: grader:
+sudo adduser grader
+
+You can confirm that the new user has been created by installing finger
+sudo apt-get install finger
+sudo finger grader
+
+Give the new user sudo permission:
+Open sudoer configuration using visudo command:
+visudo
+
+OR
+To include other users use the /etc/sudoers.d file
+Add a file named grader to it
+sudo touch /etc/sudoers.d/grader
+Open the file
+sudo nano /etc/sudoers.d/grader
+Add:
+grader ALL=(ALL:ALL) ALL
+
+You can list all the users present root.
+# sudo cut -d: -f1 /etc/passwd
+
+Update all available packages: This will provide a list of packages to be upgraded.
+sudo apt-get update
+
+Upgrade packages to newrer versions:
+sudo apt-get upgrade
+
+Create a SSH Key Pair for grader: on your local machine (priya~$)
+ssh-keygen 
+
+Now you are asked to give a filename for the key pair
+/c/Users/priya/.ssh/graderAccess
+
+Place the public key on the server:
+Login as grader
+use sudo login command to change to the grader users
+Create a directory called .ssh
+ mkdir .ssh
+ 
+ Create a new file within the .ssh directory called authorized_keys. A special file that will store the public keys.
+
+grader@ip-10-20-30-101:~$ touch .ssh/authorized_keys
+
+Switch back to your Local Machine, and copy the contents of id_rsa.pub:
+
+YOUR LOCAL MACHINE:~$ cat ~/.ssh/graderAccess.pub
+
+Switch back to your Remote Server, edit authorized_keys file and paste the content of id_rsa.pub inside. Save file.
+grader@ip-10-20-30-101:~$ sudo nano .ssh/authorized_keys
+
+Set specific file permission on SSH and authorized_keys directories:
+grader@ip-10-20-30-101:~$ chmod 700 .ssh
+grader@ip-10-20-30-101:~$ chmod 644 .ssh/authorized_keys
+
+Login using key
+ssh grader@34.193.246.181 -p 2200 -i ~/.ssh/graderAccess
+
+E - Configure UFW to only allow incoming connections for SSH(Port:2200), HTTP(Port:80) and NTP(Port:123).
+
+Check the status of UFW. Make sure it is inactive:
+
+grader@ip-10-20-30-101:~$ sudo ufw status
+Deny all incoming connections as default so that we can allow the ones we need.
+
+grader@ip-10-20-30-101:~$ sudo ufw default deny incoming
+Allow incoming TCP connection on SSH(Port:2200), HTTP(Port:80), NTP(Port:123)
+
+grader@ip-10-20-30-101:~$ sudo ufw allow 2200/tcp
+grader@ip-10-20-30-101:~$ sudo ufw allow 80/tcp
+grader@ip-10-20-30-101:~$ sudo ufw allow 123/udp
+Enable the firewall:
+
+grader@ip-10-20-30-101:~$ sudo ufw enable
+
+F - Configure local Time Zone to UTC
+
+Reference: Ubuntu
+
+Open Timezone selection dialog:
+
+grader@ip-10-20-30-101:~$ sudo dpkg-reconfigure tzdata
+Choose and type None of the above, then choose UTC.
+
+Setup ntp daemon to improve time sync:
+
+grader@ip-10-20-30-101:~$ sudo apt-get install ntp
+
+G - Install and Configure Apache to serve a Python mod_wsgi application.
+
+Install Apache web Server:
+
+grader@ip-10-20-30-101:~$ sudo apt-get install apache2
+In your browser (Chrome preferably), type in your public ip address: http://52.39.26.86, and it should return - It works! Ubuntu page.
+Install mod_wsgi, and python-setuptools helper package. This will serve Python apps from Apache:
+
+grader@ip-10-20-30-101:~$ sudo apt-get install python-setuptools libapache2-mod-wsgi
+
+Configure Apache to handle requests using the WSGI module
+
+grader@ip-10-20-30-101:~$ sudo nano /etc/apache2/sites-enabled/000-default.conf
+Add the following line: WSGIScriptAlias / /var/www/html/myapp.wsgi at the end of the <VirtualHost *:80> block, right before the closing </VirtualHost>. Now save and quit the nano editor.
+
+Restart Apache: sudo apache2ctl restart
+
+Create the myapp.wsgi file that was added to the deafult-conf file: (You can skip this step if you want. We just want to test that apache has been rightly configured to read python files.)
+
+grader@ip-10-20-30-101:~$ sudo nano /var/www/html/myapp.wsgi
+You can test the app by adding the following script in the opened nano editor to be sure that apache has been rightly configured to recognize python applications:
+
+def application(environ, start_response):
+    status = '200 ok'
+    output = 'Hello World - Its Working'
+    
+    response_headers=[('content-type','text/plain'),('content-length', str(len(output)))]
+    start_response(status, response_headers)
+    return [output]
+After you save the file, refresh/reload your browser and you should see Hello World - Its working. This same method will be used for our Catalog app configuration process.
+
+Restart Apache server to load mod_wsgi.
+
+grader@ip-10-20-30-101:~$ sudo service apache2 restart
+
+H - Install Git and Setup Environment for delopying Flask Application.
+
+Reference: Github
+
+Install Git:
+
+grader@ip-10-20-30-101:~$ sudo apt-get install git
+You can set up your name and email address for the commits to your account.
+
+grader@ip-10-20-30-101:~$ git config --global user.name "YOUR NAME"
+grader@ip-10-20-30-101:~$ git config --global user.email "YOUR EAMIL"
+
+Setup process for delopying Flask application: Reference: DigitalOcean
+
+(a) - Add additional Python package to enable Apache serve Flask applications:
+
+grader@ip-10-20-30-101:~$ sudo apt-get install libapache2-mod-wsgi python-dev
+(b) - Enable mod_wsgi if it is not enabled already:
+
+grader@ip-10-20-30-101:~$ sudo a2enmod wsgi
+(c.) - Navigate to the www directory:
+
+grader@ip-10-20-30-101:~$ cd /var/www
+
+Setup a directory folder. You can call it Catalog: This will hold our app,
+
+grader@ip-10-20-30-101:/var/www$ sudo mkdir Catalog
+cd Catalog and make another directory called catalog.
+
+grader@ip-10-20-30-101:/var/www$ cd Catalog
+grader@ip-10-20-30-101:/var/www/Catalog$ sudo mkdir catalog
+cd catalog and make a directory called static templates
+
+grader@ip-10-20-30-101:/var/www/Catalog$ cd catalog
+grader@ip-10-20-30-101:/var/www/Catalog/catalog$ sudo mkdir static templates
+
+Inside catalog folder, create a flask applicaion logic file called __init__.py through the nano editor: Note __init__.py is written with double underscore like so: _\_\init\_\_.py.
+
+grader@ip-10-20-25-175:/var/www/Catalog/catalog$ sudo nano __init__.py
+Inside the init.py nano editor, paste this code:
+
+from flask import Flask
+app = Flask(__name__)
+@app.route("/")
+def hello():
+    return "Hello, Catalog app coming up soon!"
+if __name__ == "__main__":
+  app.run()
+You can use ls or ls -al to view the content of your file path.
+
+Flask Installation and Virtual Environment configuration:
+
+(a) - Install pip (good practice)
+
+grader@ip-10-20-30-101:/var/www/Catalog/catalog$ sudo apt-get install python-pip
+(b) - Install virtual environment (virtualenv):
+
+grader@ip-10-20-30-101:/var/www/Catalog/catalog$ sudo pip install virtualenv
+You can set the virtual environment name to a shorter name. e.g venv
+
+grader@ip-10-20-30-101:/var/www/Catalog/catalog$ sudo virtualenv venv
+If you are getting the Error: locale.Error... reponse, do this:
+
+grader@ip-10-20-30-101:~$ export LC_ALL = C
+Enable all permissions for the new virtual environment venv. By doing so, sudo would not be used inside the environment.
+
+grader@ip-10-20-30-101:/var/www/Catalog/catalog$ sudo chmod -R 777 venv
+Now activate the Virtual Environment:
+
+grader@ip-10-20-30-101:/var/www/Catalog/catalog$ source venv/bin/activate
+
+ You  will see this:
+(venv) grader@ip-10-20-30-101:/var/www/Catalog/catalog$
+Inside the Virtual Environment, install Flask
+
+(venv) grader@ip-10-20-30-101:~$ /var/www/Catalog/catalog$ pip install Flask
+Run the init.py file (our python test app)
+
+(venv) grader@ip-10-20-30-101:/var/www/Catalog/catalog$ python __init__.py
+If everything is ok, it will run alright.
+
+Deactivate the Virtual environment:
+
+(venv) grader@ip-10-20-30-101:/var/www/Catalog/catalog$ deactivate
+Configure and Enable a New Virtual Host that will house our .wsgi file we are to create, just like we did while testing our myapp.wsgi file.
+
+(a) - Create vitual host config file:
+
+grader@ip-10-20-30-101:/var/www/Catalog/catalog$ sudo nano /etc/apache2/sites-available/catalog.conf
+In the newly created catalog.conf file, paste in the following lines of code.
+
+<VirtualHost *:80>
+    ServerName 52.39.26.86
+    ServerAdmin admin@52.39.26.86
+    WSGIScriptAlias / /var/www/Catalog/catalog.wsgi
+    <Directory /var/www/Catalog/catalog/>
+        Order allow,deny
+        Allow from all
+    </Directory>
+    Alias /static /var/www/Catalog/catalog/static
+    <Directory /var/www/Catalog/catalog/static/>
+        Order allow,deny
+        Allow from all
+    </Directory>
+    ErrorLog ${APACHE_LOG_DIR}/error.log
+    LogLevel warn
+    CustomLog ${APACHE_LOG_DIR}/access.log combined
+</VirtualHost>
+Enable the Virtual Host.
+
+grader@ip-10-20-30-101:/var/www/Catalog/catalog$ sudo a2ensite catalog.conf         
+(b) - Create the catalog.wsgi file that was defined in the host.
+
+Go back to the Catalog folder:
+
+grader@ip-10-20-30-101:/var/www/Catalog/catalog$ cd /var/www/Catalog
+Create the catalog.wsgi file, using the nano editor:
+
+grader@ip-10-20-30-101:~/var/www/Catalog$ sudo nano catalog.wsgi
+Paste the following code inside the catalog.wsgi file
+
+#!/user/bin/python
+import sys
+import logging
+logging.basicConfig(stream=sys.stderr)
+sys.path.insert(0,"/var/www/Catalog/catalog/")
+
+from catalog import app as application
+application.secret_key = 'Add your secret key'
+Note: The catalog.wsgi file, looks into the path /var/www/Catalog/catalog for a python file that executes your cloned project 3 file placed in the /catalog folder ( we will be doing this next). That file contains the app = Flask(__name__) expression. If The application that runs your python code is called catalog.py, and catalog.py contains that Flask expression, then using from catalog import app... is the correct syntax. But if your file that runs your python application is __init__.py, and it contains the Flask expression, then it would be proper to do this:
+
+#!/user/bin/python
+import sys
+import logging
+logging.basicConfig(stream=sys.stderr)
+sys.path.insert(0,"/var/www/Catalog/catalog/")
+
+from __init__ import app as application
+application.secret_key = 'Add your secret key'
+In a nutshell, app must be imported from whatever application that exeutes your python code. I figured this out the hard way.
+
+Restart Apache:
+
+grader@ip-10-20-30-101:/var/www/Catalog$ sudo service apache2 restart 
+
+You could also double check the permissions & ownership on "/var/www/FlaskApp" and the files within. Apache runs as the user "www-data", so if the permissions are not set for anyone to read, that could be an issue. It's best practice to have the "www-data" user own files that are served by the web server. You can change the ownership with the command:
+
+cd /var/www
+sudo chown www-data:www-data -R FlaskApp
+
+Clone Your (Project 3 - Item Catalog) respository
+
+grader@ip-10-20-30-101:/var/www/Catalog$ sudo git clone https://github.com/elnobun/Item-Catalog-Movie-Collection-App-.git
+Move all the contents of your cloned respository directory into /var/www/Catalog/catalog, and delete empty directory.
+
+grader@ip-10-20-30-101:/var/www/Catalog$ sudo mv fullstack-nanodegree-vm/vagrant/catalog/* /var/www/Catalog/catalog
+sudo rm -r fullstack-nanodegree-vm
+Render your respository inaccessible:
+
+(a) - Create a .htaccess file:
+
+grader@ip-10-20-30-101:/var/www/Catalog$ sudo nano .htaccess
+(b) - Add this to the opened nano .htaccess file : RedirectMatch 404 /\.git
+
+Install all the neeeded packages and modules for python.
+
+(a) - FIrst activate your virtual environment:
+
+grader@ip-10-20-30-101:/var/www/Catalog/catalog$ source venv/bin/activate
+(b) - Install all these packages:
+
+(venv) grader@ip-10-20-30-101:/var/www/Catalog/catalog$ sudo apt-get install python-setuptools
+(venv) grader@ip-10-20-30-101:/var/www/Catalog/catalog$ sudo pip install Flask
+(venv) grader@ip-10-20-30-101:/var/www/Catalog/catalog$ pip install httplib2
+(venv) grader@ip-10-20-30-101:/var/www/Catalog/catalog$ pip install requests
+(venv) grader@ip-10-20-30-101:/var/www/Catalog/catalog$ sudo pip install flask-seasurf
+(venv) grader@ip-10-20-30-101:/var/www/Catalog/catalog$ sudo apt-get install python-psycopg2
+(venv) grader@ip-10-20-30-101:/var/www/Catalog/catalog$ sudo pip install oauth2client
+(venv) grader@ip-10-20-30-101:/var/www/Catalog/catalog$ pip install sqlalchemy
+or
+And then I installed the following dependencies:
+
+pip install httplib2
+pip install requests
+pip install --upgrade oauth2client
+pip install sqlalchemy
+pip install Flask-SQLAlchemy
+sudo apt-get install libpq-dev (I think I read somewhere--I can't remember where--that libpq-dev has to be installed with apt-get; so I know that even though the virtualenv was active when I installed libpq-dev, it was installed globally and not on catalog-venv)
+pip install psycopg2
+
+I ran pip freeze > requirements.txt and then ls -al and got (among other things):
+Restart apache: sudo apache2ctl restart
+
+I - Install and configure PostgreSQL with default settings to not allow remote Connection:
+
+Reference: DigitalOcean
+
+Install the PostgreSQL database:
+
+(venv) grader@ip-10-20-30-101:/var/www/Catalog/catalog$ sudo apt-get install postgresql postgresql-contrib
+Ensure that no remote connections are allowed. It should be default.
+
+(venv) grader@ip-10-20-30-101:/var/www/Catalog/catalog$ sudo nano /etc/postgresql/9.3/main/pg_hba.conf
+Open your project 3 database_setup.py file:
+
+(venv) grader@ip-10-20-30-101:/var/www/Catalog/catalog$ sudo nano database_setup.py
+Effect these changes:
+
+(a) - Go to the line that have this syntax:
+
+engine = create_engine('sqlite:///YOUR-DATABASE-NAME.db')
+(b) - Change the above syntax to a Postgresql database engine like so.
+
+engine = create_engine('postgresql://catalog:DB-PASSWORD@localhost/catalog')
+you should put down a password where you have DB-PASSWORD. Make sure you rememebr the password because you will need it later.
+
+Also, effect the above changes in your main app.py file. I.e the python file you execute to run your project. In my projec 3, my python execution file is movie_app.py.
+
+(c.) - Rename your app.py (mine was movie_app.py), to __init__.py
+
+(venv) grader@ip-10-20-30-101:/var/www/Catalog/catalog$ mv YOUR_APP.py __init__.py
+Note: If you make that change above, make sure your 'catalog.wsgi` file reflects this change. It should read like so:
+
+#!/user/bin/python
+import sys
+import logging
+logging.basicConfig(stream=sys.stderr)
+sys.path.insert(0,"/var/www/Catalog/catalog/")
+
+from __init__ import app as application
+application.secret_key = 'Add your secret key'
+If you did not make the above changes, then catalog.wsgi should have whatever application_name.py in your project 3 file that contains your app = Flask(__name__) so that it can be imported as application in the catalog.wsgi file.
+
+mv oldfilename newfilename - change name
+Use pip or setuptools to manage your installation (you might need to run sudo first):
+
+pip (preferred):
+$ pip install --upgrade google-api-python-client to take care of import error oauth2client
+change the path to client_secrets file to take care of other errors
+
+J - Create a new user: catalog, add user to PostgreSQL databse with limited permissions to catalog application database.
+
+Create a user catalog for psql:
+
+(venv) grader@ip-10-20-30-101:/var/www/Catalog/catalog$ sudo adduser catalog
+
+choose a password for that user.
+Change to the default user Postgres
+
+(venv) grader@ip-10-20-30-101:/var/www/Catalog/catalog$ sudo su - postgres
+postgres@ip-10-20-25-175:~$ 
+Connect to the postgres system:
+
+postgres@ip-10-20-30-101:~$ psql
+You see this:
+
+psql (9.3.12)
+Type "help" for help.
+
+postgres=# 
+Add the postgres user: catalog and setup users parameters.
+
+(a) - Create user catalog with a login role and password
+
+postgres=# CREATE USER catalog WITH PASSWORD 'DB-PASSWORD';
+Note : The DB-PASSWORD, should be the same password you used to create the postgresql engine in your database_setup.py file.
+
+(b) - Allow the user catalog to be able to create databse tables
+
+postgres=# ALTER USER catalog CREATEDB;
+You can list the roles available in postgres, and their attribute:
+
+postgres=# \du
+Create a new database called catalog for the user: catalog:
+
+postgres=# CREATE DATABASE catalog WITH OWNER catalog;
+Connect to the database:
+
+postgres=# \c catalog
+Revoke all rights on the database schema, and grant access to catalog only.
+
+catalog=# REVOKE ALL ON SCHEMA public FROM public;
+catalog=# GRANT ALL ON SCHEMA public TO catalog;
+Exit Postgresql and postgres user:
+
+postgres=# \q
+postgres@ip-10-20-30-101~$ exit
+Create Postgresql database schema:
+
+(venv) grader@ip-10-20-30-101:/var/www/Catalog/catalog$ python database_setup.py
+We can check that it worked. After you run database_setup.py, Go back to your postgres schema, and connect to catalog database.
+
+postgres@ip-10-20-30-101:~$ psql
+psql (9.3.12)
+Type "help" for help.
+
+postgres=# \c catalog
+When you conect to the catalog database, you can view all the relations created by your python database_setup.py command.
+
+catalog=# \dt
+
+         List of relations
+ Schema |    Name    | Type  |  Owner  
+--------+------------+-------+---------
+ public | collection | table | catalog
+ public | movie      | table | catalog
+ public | user       | table | catalog
+ (3 rows)
+Now exit postgres, and return to Virtual environment.
+
+Restart Apache:
+
+(venv) grader@ip-10-20-30-101:/var/www/Catalog/catalog$ sudo service apache2 restart
+In your browser, put in your PUBLIC-IP-ADDRESS : 52.39.26.86. If you follwed the steps accordingly, Your applciation should come up.
+
+If you are getting Internal server error, You can access the Apache error log file. To view the last 30 lines in the error log,
+
+(venv) grader@ip-10-20-30-101:/var/www/Catalog/catalog$ sudo tail -30 /var/log/apache2/error.log
+K - Get OAUTH-LOGINS (Google+ and Facebook) working.
+
+To fix the google: g_client_secrets.json error, go to the login session of your application, to these sections:
+
+app_token = json.loads(
+open('g_client_secret.json', 'r').read())['web']['client_id']
+
+oauth_flow:flow_from_clientsecrets('g_client_secret.json', scope='')
+Add /var/www/Catalog/catalog to your code path.:
+
+app_token = json.loads(
+open(r'/var/www/Catalog/catalog/g_client_secret.json', 'r').read())['web']['client_id']
+
+
+oauth_flow:flow_from_clientsecrets('/var/www/Catalog/catalog/g_client_secret.json', scope='')
+Do the same thing for the fb_client_secret.json file. This is to enable apache locate the file through the proper path.
+
+If you are
+
+Go to http://www.hcidata.info/host2ip.cgi to recieve the Host Name for your PUBLIC-IP-ADDRESS. The Host Name for mine : 52.39.26.86, is ec2-52-39-26.86.us-west-2.compute.amazonaws.com
+
+Open Apache catalog.conf file.
+
+(venv) grader@ip-10-20-30-101:/var/www/Catalog/catalog$ sudo nano /etc/apache2/sites-available/catalog.conf
+Paste this in the nano editor for catalog.conf: ServerAlias ec2-52-39-26.86.us-west-2.compute.amazonaws.com
+
+<VirtualHost *:80>
+    ServerName 52.39.26.86
+    ServerAdmin admin@52.39.26.86
+    ServerAlias ec2-52-39-26.86.us-west-2.compute.amazonaws.com
+    WSGIScriptAlias / /var/www/Catalog/catalog.wsgi
+    <Directory /var/www/Catalog/catalog/>
+        Order allow,deny
+        Allow from all
+    </Directory>
+    Alias /static /var/www/Catalog/catalog/static
+    <Directory /var/www/Catalog/catalog/static/>
+        Order allow,deny
+        Allow from all
+    </Directory>
+    ErrorLog ${APACHE_LOG_DIR}/error.log
+    LogLevel warn
+    CustomLog ${APACHE_LOG_DIR}/access.log combined
+</VirtualHost>
+Enable virtual host - catalog.conf
+
+(venv) grader@ip-10-20-30-101:/var/www/Catalog/catalog$ sudo a2ensite catalog
+To get Google+ authorization working, do this:
+
+(a) - On the Developer Console: http://console.developers.google.com, select your Project.
+
+(b) - Navigate to Credentials, and edit your OAuth 2.0 client IDs like so:
+
+To get Facebook authorization working, do this:
+
+(a) - Go to Facebook developers page: `https://developers.facebook.com/apps and select your app.
+
+(b) - Go to settings and fill in your PUBLIC-IP-ADDRESS like so:
+
+You can install Monitor application:
+
+(venv) grader@ip-10-20-30-101:/var/www/Catalog/catalog$ sudo apt-get install python-pip build-essential python-dev
+(venv) grader@ip-10-20-30-101:/var/www/Catalog/catalog$ sudo pip install Glancers
+L - Install and Configured Fail2ban intrusion protection that bans suspicious IPs.
+
+Reference: DigitalOcean
+
+Install Fail2ban application:
+
+grader@ip-10-20-30-101:~$ sudo apt-get install fail2ban
+Copy the default config file
+
+grader@ip-10-20-30-101:~$ sudo cp /etc/fail2ban/jail.conf /etc/fail2ban/jail.local
+Open jail.local and change the followinf default parameters:
+
+grader@ip-10-20-30-101:~$ sudo nano /etc/fail2ban/jail.local
+Set the following parameters:
+
+set bantime = 1600
+destemail = YOURNAME@DOMAIN or YOUR-EMAIL
+action = %(action_mwl)s
+under [ssh] change port = 2200
+Stop the service:
+
+grader@ip-10-20-30-101:~$ sudo service fail2ban stop
+Start the service again:
+
+grader@ip-10-20-30-101:~$ sudo service fail2ban start
+FINALLY:
+
+Restart apache2 server, run your app on amazonaws.
+Contact GitHub 
+
