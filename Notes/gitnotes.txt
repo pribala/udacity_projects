@@ -1,0 +1,156 @@
+	
+Summary:
+
+git add -A stages All
+git add . stages new and modified, without deleted
+git add -u stages modified and deleted, without new
+Detail:
+
+git add -A is equivalent to  git add .; git add -u.
+
+The important point about git add . is that it looks at the working tree and adds all those paths to the staged changes if they are either changed or are new and not ignored, it does not stage any 'rm' actions.
+
+git add -u looks at all the already tracked files and stages the changes to those files if they are different or if they have been removed. It does not add any new files, it only stages changes to already tracked files.
+
+git add -A is a handy shortcut for doing both of those.
+
+
+
+merge
+git merge branch1 branch 2
+
+abort merge
+git merge --abort
+
+git show commit-id (shows code changes bet this commit id and its parent )
+
+delete branch label
+git branch -d branchname
+
+while resolving conflicts in merging
+use git diff to see changes
+resolve conflicts
+
+Create a repo on Github
+create a remote on git using
+git remote add remote-name url of the repo from Github
+See all remotes
+git remote
+git remote -v (More details)
+to push data to Github
+git push remote-name name-of-local-branch
+git pull remote-name name-of-local-branch
+check --git status
+git add changedfile
+git commit
+to see just one commit 
+git log -n 1
+
+to update local to match remote
+git fetch remote-name
+to check
+git diff origin/master master
+git status origin/master master
+git status will compare your local master branch to origin/master, your local copy of the remote branch.
+git fetch remote-name
+git merge local-branch-name local copy of remote branch
+is same as git pull origin master
+resolve the conflict, commit
+then git push the changes to the remote
+Fast forward merges
+commit a <----- commit b
+if you can reach a from b, you can do a fast-forward merge.
+
+For collaboration
+pull requests
+make a different branch
+checkout the branch
+make changes
+git branch branch-name
+git checkout branch-name
+make changes
+git add changed-version
+git commit
+git push origin branch-name
+
+Notice that the commit message:
+Indicates that a pull request was merged
+Gives the number of the pull request (#1 here)
+Gives the branch the pull request was merged from (cbuckey-uda/different-oil here).
+Contains the title of the pull request.
+GitHub automatically creates a commit message like this whenever 
+a pull request is merged to make it easy to see pull requests in the commit history. 
+Even when the merge is a fast-forward merge, GitHub still creates this commit.
+
+Pull Request:
+Github fork repo     Local repo-master branch
+Make changes on the local repo by creating a new branch, push the changes to Github as the new branch
+Steps
+create new branch
+checkout new branch
+make changes
+add the changes (git add filename)
+commit the changes
+push the changes to github
+
+Now on Github you checkout the new branch and create a pull request making sure to change the original repository from which the fork was made to your master branch of the forked repository and create a pull request.
+Now your pull requests will be listed and any collaborator can check the changes and comment (inline or on whole comment) or if the changes are fine, then 
+merge the pull request (i.e merge the changes into the master branch). The merge pull request only appears if the merge can go through without conflict.
+If there are changes then make the changes on the local repo new branch and push the changes to Github which updates the pull request.
+
+Conflicting changes
+If there is a merge conflict then first merge the changes made by the other pull request in Github
+cake-recipe
+on github
+master  /more-oil
+	\different oil
+merge more-oil into master and delete the branch if it represents only one change
+
+on local
+master<--different oil (more oil has not been pulled in yet)
+In case of a merge conflict,
+pull the changes from Github to local to reflect all the changes
+then make the changes to the different oil branch
+merge master into different oil
+push different oil to Github to update the pull request
+so git pull origin master
+merge changes into different-oil
+git checkout different oil
+git merge master different oil
+resolve conflict
+push origin different oil
+merge pull request
+pull remote master to local master
+
+A fork is a copy of a repository. Forking a repository allows you to freely experiment with changes without affecting the original project. Most commonly, forks are used to either propose changes to someone else's project or to use someone else's project as a starting point for your own idea.
+
+Pull requests let you tell others about changes you've pushed to a GitHub repository. Once a pull request is sent, interested parties can review the set of changes, discuss potential modifications, and even push follow-up commits if necessary.
+
+To grab a complete copy of another user's repository, use git clone like this:
+
+git clone https://github.com/USERNAME/REPOSITORY.git
+# Clones a repository to your computer
+
+When you run git clone, the following actions occur:
+
+A new folder called repo is made
+It is initialized as a Git repository
+A remote named origin is created, pointing to the URL you cloned from
+All of the repository's files and commits are downloaded there
+The default branch (usually called master) is checked out
+
+Use git fetch to retrieve new work done by other people. Fetching from a repository grabs all the new remote-tracking branches and tags without merging those changes into your own branches.
+git fetch remotename
+# Fetches updates made to a remote repository
+
+Merging combines your local changes with changes made by others.
+git merge remotename/branchname
+# Merges updates made online with your local work
+
+git pull is a convenient shortcut for completing both git fetch and git mergein the same command:
+
+git pull remotename branchname
+
+Because pull performs a merge on the retrieved changes, you should ensure that your local work is committed before running the pull command. If you run into a merge conflict you cannot resolve, or if you decide to quit the merge, you can use git merge --abort to take the branch back to where it was in before you pulled.
+
+ To add a new remote Git repository as a shortname you can reference easily, run git remote add <shortname> <url>:

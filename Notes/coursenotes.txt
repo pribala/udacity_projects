@@ -1,0 +1,295 @@
+Steps to get context for a new codebase
+1. Run the application
+2. Explore the file structure
+3. Look at what javascript files are being loaded
+4. Figure out what the libraries do
+
+JQuery is a DOM manipulation library. It also lets you make AJAX calls to servers and has some good utilities.
+Library versus Framework
+Bower
+Backbone.js Organizational library
+underscore.js gives us a bunch of utility functions which makes it easier to write javascript
+
+Todo application
+
+1. Let the user set the priority status when creating the todo item
+2. Let users filter or sort by priority status
+3. Expand the priority feature to have more than two levels
+4. Add a recycle bin for recovering deleted todos
+5. Add colors, so people can associate different todos with each other
+6. Add labels for sorting and filtering
+
+jQuery is just a javascript library. The jQuery function takes in some parameters returns an object and has some methods attached to it ($.ajax())
+$ is just a function
+jQuery returns an array like object called jQuery collection
+jQuery collection ( like an array with additional methods)
+
+$(string)
+$(function)
+$(DOM element)
+
+Maps Api key : AIzaSyAvt-ZFcdqQltBEdpHGSHhpfUbI_Ju8Bh8
+
+Google Maps
+Google maps are made up of lots of different types of data, imagery, points of interests, road networks etc
+
+Map types
+4 preconfigured types
+1. Road map maptype
+2. Satellite (real images of the world)
+3. Hybrid (overlay features such as roads on satellite imagery)
+4. Terrain
+
+function isOdd(num) { return num % 2;}
+console.log("1 is " + isOdd(1));
+console.log("2 is " + isOdd(2));
+console.log("3 is " + isOdd(3));
+console.log("4 is " + isOdd(4));
+
+If you use Google Maps API v3 you can use setIcon e.g.
+
+marker.setIcon('http://maps.google.com/mapfiles/ms/icons/green-dot.png')
+Or as part of marker init:
+
+marker = new google.maps.Marker({
+    icon: 'http://...'
+});
+
+Other colours:
+
+Blue marker
+Red marker
+Purple marker
+Yellow marker
+
+Features that we can change for a map
+1. water
+2. land features
+3. roads such as highways or local roads
+4. points of interests
+5. labels
+
+To find map styles
+type Google Maps api styles
+
+What makes up a street view panorama:
+1. what place we are looking at
+2. Point of view (are we looking at this building from the east/west?) called the heading
+3. should be looking down on the building or up at it (called pitch)
+
+Parameters to retrieve a static map image
+1. Center
+2. Zoom
+3. Key
+4. Size
+
+ Google Maps API libraries
+ 
+ Geometry
+ Visualization
+ Drawing
+ 
+ Geocoding is one of the many location services available via the Google Maps API
+ Geo coding: Taking an address and getting the latitude/longitude
+ Reverse geo coding: Getting the address/place from lat/longitude
+ 
+ Geo coding http request from the browser
+ https://maps.googleapis.com/maps/api/geocode/json?address=775+Park+Avenue,+New+York,+NY&key=yourkey (has to be a https request)
+ Required parameters:
+ key
+ address
+ Optional parameters:
+ Region is an optional parameter, which will BIAS the results toward a specific region.
+ Result
+ status: possible values
+ OK
+ Invalid request - something wasn't right in our request
+ Unknown error - some kind of error on the server
+ Over query limit errors
+ Request denied 
+ Zero_Results:
+ Responses occur when the service request is successfully passed through to the server- it's authenticated and a query is executed-
+ but no matching results were found. As long as you pass an API key and have a valid request format, you can request any address to 
+ be geocoded.
+  
+ The address component section has info broken down into things such as street, town, neighborhood, state, country etc
+ Formatted address: that we can use on its own
+ The geometry contains the lat/long of the actual location and other info
+ The location type tells us more about the point we got back
+ 
+  "formatted_address" : "775 Park Ave, New York, NY 10021, USA",
+         "geometry" : {
+            "bounds" : {
+               "northeast" : {
+                  "lat" : 40.7716312,
+                  "lng" : -73.9629539
+               },
+               "southwest" : {
+                  "lat" : 40.7709736,
+                  "lng" : -73.9635246
+               }
+            },
+            "location" : {
+               "lat" : 40.7713024,
+               "lng" : -73.9632393
+            },
+            "location_type" : "ROOFTOP",
+            "viewport" : {
+               "northeast" : {
+                  "lat" : 40.7726513802915,
+                  "lng" : -73.9618902697085
+               },
+               "southwest" : {
+                  "lat" : 40.7699534197085,
+                  "lng" : -73.96458823029151
+               }
+            }
+         },
+         "place_id" : "ChIJgYbcOutYwokRX3wzbD5sLLs",
+         "types" : [ "premise" ]
+      }
+   ],
+   "status" : "OK"
+}
+"location_type" : "ROOFTOP" : tells us we got an exact match
+Other values could be range interpolated which means the geocoder approximated a point based on surrounding points
+Geometric center :  we got the center of a line. If we just gave the rd name without address then center of that road
+
+ Place id which is another unique identifier for any place ranging from a whole country to a single address
+ 
+ Google Distance Matrix Api
+ Computes travel distance and journey duration between multiple origins and destinations, given a mode of travel
+ Browser request
+ https://maps.googleapis.com/maps/api/distancematrix/json?origins=New+York,+NY&destinations=San+Francisco,+CA&key=yourkey
+ {
+   "destination_addresses" : [ "San Francisco, CA, USA" ],
+   "origin_addresses" : [ "New York, NY, USA" ],
+   "rows" : [
+      {
+         "elements" : [
+            {
+               "distance" : {
+                  "text" : "4,677 km",
+                  "value" : 4676518
+               },
+               "duration" : {
+                  "text" : "1 day 19 hours",
+                  "value" : 153033
+               },
+               "status" : "OK"
+            }
+         ]
+      }
+   ],
+   "status" : "OK"
+}
+
+distance is by default in metres
+time in seconds
+mode - driving
+We only have one element which is an origin and destination pair
+For multiple origins and destinations we will have multiple elements
+Optional parameters:
+mode= driving, walking, bicycling, transit
+avoid=highways
+transit_mode = rail, bus, subway
+units= imperial/metric
+https://maps.googleapis.com/maps/api/distancematrix/json?mode=bicycling&units=imperial&origins=4800+El+Camino+Real,+Los+Altos,+CA&destinations=2465+Lathem+Street,+Mountain+View,+CA&key=
+
+Directions Api
+Gives us info about a journey. It provides step by step directions from point A to point B and even to point C through Z if needed
+Inputs:
+travel mode: driving, walking, bicycling, transit
+Multiple transit modes: bus, train
+Restrictions: avoid tolls, highways,ferries etc
+Origins
+Destinations
+Way points as either text strings or lat/long coordinates
+way points parameter to specify additional destinations which is taken into account as a stop on the route
+Via parameter won't consider an extra leg, it'll just take us by the point
+Examples
+https://maps.googleapis.com/maps/api/directions/json?mode=transit&transit_mode=subway&transit_routing_preferences=less_walking&origin=Brooklyn&destination=75+9th+Ave,+New+York,+NY&key=
+https://maps.googleapis.com/maps/api/directions/json?mode=bicycling&origin=Brooklyn&destination=75+9th+Ave,+New+York,+NY&waypoints=165+avenue+A,+New+York&key=
+overview_polyline : this will allow us to display the route on the map
+
+walking directions using 3 waypoints
+https://maps.googleapis.com/maps/api/directions/json?mode=walking&avoid=highways&origin=Brooklyn&destination=75+9th+Ave,+New+York,+NY&waypoints=optimize:true|350+5th+Ave,+New+York,+NY|165+avenue+A,+New+York|1520+York+Ave,+New+York,+NY&key=
+
+cover all the points in the most optimized way
+
+Real time traffic integration or predictive traffic time allows (only available with premium plan)
+us to specify additional things and get back the predicted time in traffic. This is great for traffic heavy areas since the time in traffic
+can be drastically different from the time without.
+add drivingOptions parameter into the request. travelMode has to be driving
+drivingOptions: {
+	departureTime: new Date(Date.now()),
+	trafficMode: "optimistic" or "pessimistic"
+}
+
+Distance Matrix API requests are made with a combination of ORIGIN and DESTINATION values, as well as a TRAVELMODE. Here are some watchpoints when making requests:
+
+Regardless of the travel mode chosen, you can pass in up to 25 origin or 25 destinations per request, but ONLY up to 100 elements and elements = origins*destinations. For example, 10 origins and 10 destinations = 100 elements. This value is increased to up to 625 elements for Premium Plan customers, when using the Web Service.
+While most other services are Rate Limited (queries per second can’t exceed 50), the Distance Matrix API is rate limited in terms of ELEMENTS (not queries). If too many elements are requested within a certain time period, an OVER_QUERY_LIMIT response code will be returned.
+Some parameters only are valid for certain travel modes - for example:
+AvoidTolls and AvoidHighways are ignored if the travel mode = transit
+All of the TransitOptions are only valid if the travel mode = transit
+departureTime can be passed as part of the DrivingOptions or TransitOptions parameters
+
+Directions API requests also involve ORIGIN, DESTINATION and TRAVELMODE but have the optional parameters of WAYPOINTS or VIA points as well. Here are some watchpoints when making requests:
+
+For the client-side Directions service (using the Javascript API), up to 8 waypoints per request can be specified, in addition to the origin and destination, making a total of 10 geocoded points per request. This limit increases from 8 to 23 for Premium Plan customers
+For the web service, up to 23 waypoints per request can be specified as long as you provide a valid identifier, such as your API key. Your response code will indicate if this is exceeded.
+Waypoints are not supported for the TRANSIT travel mode
+
+Roads Api
+It takes the GPS points and snaps them to the road you are most likely on. You pass in upto a 100 of the jittery gps coordinates and the roads api
+returns a similar set of data with the points snapped to the most likely road the vehicle was travelling along. Optionally you can request the points to
+be interpolated resulting in a path that smoothly follows the geometry of the road. You can also get the posted speed limit data for a particular road
+segment. This api is only available as a web service and to premium plan
+https://roads.googleapis.com/v1/snapToRoads?path=lat,long|lat,long|lat,long&interpolate=true&key=
+https://roads.googleapis.com/v1/speedLimits?path=lat,long|lat,long|lat,long&key=
+lat,long = gps points
+
+Snap to Roads
+
+The Google Maps Roads API takes up to 100 GPS points collected along a route, and returns a similar set of data, with the points snapped to 
+the most likely roads the vehicle was traveling along. Optionally, you can request that the points be 
+interpolated, resulting in a path that smoothly follows the geometry of the road.
+
+Places library
+1.Enables you to search for places, like establishments, geographic locations or prominent points of interests within a defined area
+2.Places auto complete functionality
+
+Place detail request
+https://maps.googleapis.com/maps/api/place/details/json?placeid=&key=
+
+Place photo request
+https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=&key=
+
+Nearby Search
+Formerly know as simply Place Search, the nearby search is the simplest way to find places within a specified area. You are able to specify a center, and a radius to search within. This search will return a list of 20 places by default, and 60 with a Premium Plan license.
+
+Text Search
+The Text search allows a user or system to execute a places search without a specified location, by using a text query. The search can also be biased by passing location information.
+
+Radar Search
+Radar Search allows the user to specify the same parameters as the Nearby Search, and will return 200 results instead of 20, but with limited returned data.
+
+For all the searches, you can pass the value of the next_page_token to the pagetoken parameter of a new search to see the next set of results. If the next_page_token is null, or is not returned, then there are no further results.
+
+The following is a list of the required and optional parameters, and which search methods are able to be used with them.
+
+Parameters		
+key
+
+Time Zone Api
+location in form of lat long
+day time stamp - whether or not to adjust for daylight savings
+https://maps.googleapis.com/maps/api/timezone/json?location=lat,long&timestamp=&key=
+
+Google geolocation api
+
+Resources
+Geo Developers blog
+https://developers.google.com/maps/documentation/javascript/tutorial
+Google Developers Youtube channel

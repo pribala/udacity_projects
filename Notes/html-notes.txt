@@ -1,0 +1,50 @@
+Note: It doesn't matter which order the classes are listed in the HTML element.
+
+However, the order of the class declarations in the <style> section are what is important. 
+The second declaration will always take precedence over the first. Because .blue-text is 
+declared second, it overrides the attributes of .pink-text
+
+The browsers read CSS from top to bottom. That means that, 
+in the event of a conflict, the browser will use whichever CSS declaration came last.
+
+id declarations override class declarations, regardless of where they are declared 
+in your style element CSS.
+
+in-line styles will override all the CSS declarations in your style element.
+
+In many situations, you will use CSS libraries. These may accidentally override your 
+own CSS. So when you absolutely need to be sure that an element has specific CSS, you can use !important
+
+We usually use decimals, or base 10 numbers, which use the symbols 0 to 9 for each digit.
+Hexadecimals (or hex) are base 16 numbers. This means it uses sixteen distinct symbols. 
+Like decimals, the symbols 0-9 represents values zero to nine. Then A,B,C,D,E,F 
+represent values ten to fifteen. Altogether, 0 to F can represent a digit in hexadecimal, 
+giving us 16 total possible values. 
+
+To review, hex codes use 6 hexadecimal digits to represent colors, two each for red (R), 
+green (G), and blue (B) components.
+The digit 0 is the lowest number in hex code, and represents a complete absence of color.
+
+The digit F is the highest number in hex code, and represents the maximum possible brightness
+Another way you can represent colors in CSS is by using RGB values.
+
+The RGB value for black looks like this:
+
+rgb(0, 0, 0)
+Instead of using six hexadecimal digits, with RGB you specify the brightness of 
+each color with a number between 0 and 255.
+
+Normally, your button elements with a class of btn are only as wide as the text that they contain.
+By making them block elements with the additional class of btn-block, your button will stretch 
+to fill your page's entire horizontal space and any elements following it will flow onto a "new line" below the block.
+
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css"/> -- font awesome
+
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css"/> -- bootstrap
+
+Here is all you need to know about relative file paths:
+
+Starting with "/" returns to the root directory and starts there
+Starting with "../" moves one directory backwards and starts there
+Starting with "../../" moves two directories backwards and starts there (and so on...)
+To move forward, just start with the first subdirectory and keep moving forward

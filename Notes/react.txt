@@ -1,0 +1,39 @@
+It easy to get started. It is comparatively new in the niche of JavaScript frameworks.
+ReactJs can be used seamlessly with AngularJS or NodeJS.
+Developers can easily make native apps with React Native along with many shared structures and components 
+used from the web app. ReactJS is a complete stacker, working with desktop, Android, mobile or iOS. 
+
+When we type the URL "google.com" in the browser, the DNS service tries to resolve the URL to
+an IP address.
+1. It checks the browser cache (browser maintains a cache of DNS records for some fixed duration)
+2. If the browser doesn't contain the record in its cache, it makes a system call to 
+underlying Operating System to check the OS cache. (OS also maintains a cache of recent DNS queries.)
+3. If that fails to get a DNS record, it checks the router which has its own cache.
+4. If that fails, the search moves on to ISP's cache. If the local/ISP DNS server does not have it, 
+then a recursive search is requested and that flows up the list of DNS servers until the SOA is reached.
+The browser then initiates a TCP connection with the server
+The browser sends a HTTP GET request to the server.
+The browser passes some meta information in the form of headers to the server along with the URL 
+"http://google.com" like User-Agent (Browser properties), Encoding (type of response accepted), Cookies
+(previous browsing session information for the same website in the form of key-value pairs 
+stored on client side).
+Server(web servers like Apache, IIS) handles the request by passing it to appropriate program (PHP, Servlet,
+ASP, .Net, Ruby)
+Now, this program will generate a response and then send it back to the browser according to HTTP guidelines. 
+Browser receives the HTTP response which starts with the returned status code from the server
+1xx indicates an informational message only
+2xx indicates success of some kind
+3xx redirects the client to another URL
+4xx indicates an error on the client's part
+5xx indicates an error on the server's part
+Browsers displays the html content.
+Rendering of html content is also done in phases. 
+The browser first renders the basic html structure, and then it sends multiple GET requests to fetch 
+other hyper linked stuff.
+Static files like images, javascript, css files are all cached by the browser so that it 
+doesn't have to fetch them again.      
+Client interaction with server could be in the form of filling a login form which would be a POST
+request along with form data.
+Once user is authenticated, server sends the proper html content (the user's profile page)
+Another form of client interaction with server is through AJAX(Asynchronous JavaScript And XML) requests.
+AJAX requests doesn't hinder the current view of the webpage and works in the background.
