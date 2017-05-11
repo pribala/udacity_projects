@@ -27,9 +27,8 @@ from google.appengine.ext import db
 import urlparse
 from models.user import User
 from models.post import Post
-from models.post import blog_key
 from models.comment import Comment
-
+from models.post import blog_key
 
 # initializing the template library
 template_dir = os.path.join(os.path.dirname(__file__), 'templates')

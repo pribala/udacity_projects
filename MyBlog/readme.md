@@ -66,7 +66,7 @@ This site uses google app engine to serve the content of the site.
 
 
 ### Reference:
-  * http://www.w3schools.com/ for adding the popover plugin to display movie synopsis 
+  * http://www.w3schools.com/ for HTML, CSS reference  
   * The Google App Engine documentation https://cloud.google.com/appengine/docs/python/
   * Jinja2 template library documentation http://jinja.pocoo.org/docs/dev/  
   * http://www.tutorialspoint.com/python/ for working with datetime variables 
